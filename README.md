@@ -1,4 +1,5 @@
 "# leetcode-team-challenge" 
+
 Average Salary:
 -My approach was to find the total sum of the values in the salary array as that value is integral to finding the average (salary sum/ salary length)
 -I also needed to find a way to the smallest and largest salaries, initially setting min and max to 0 did not work as those values were not being update (1000 < 0 -doesn't work)
@@ -44,3 +45,65 @@ For each number in input array:
 Sort the result array
 
 return result array
+
+--------------------------------
+Task: Merge Two Sorted Lists
+
+Approach:
+
+Main Idea
+I used a pointer (current) to build the merged list step-by-step, always choosing the smallest current node between list1 and list2.
+To make it easy to handle the beginning of the merged list, I used a dummy node that acts as a temporary head.
+
+Steps Taken:
+-Create a Dummy Node
+ a) This is a placeholder node that helps start the merged list without worrying about edge cases.
+ b) I also created a current pointer, which always points to the last node in the new list.
+ 
+-Use a While Loop to Compare Both Lists
+ a)As long as neither list is finished:
+     i) Compare list1.val and list2.val.
+     ii) Attach the smaller node to current.next.
+     iii) Move the list (either list1 or list2) forward.
+     iv)  Move current forward as well.
+     
+-Attach the Remaining Part
+  a) After the loop ends, one of the lists may still have nodes left.
+  b) Since both lists are sorted, I can now just connect the rest of the unfinished list to current.next.
+-Return the Head of the New List
+  a) The real merged list starts from dummy.next.
+
+Pseudo Code:
+Class ListNode:
+   Integer val
+   ListNode next
+   Constructor(val):
+       Set this.val = val
+       Set this.next = null
+
+Function mergeTwoLists(list1, list2):
+   Create a dummy node with value -1
+   Set current = dummy
+   WHILE list1 is not null AND list2 is not null:
+       IF list1.val <= list2.val:
+           current.next = list1
+           list1 = list1.next
+       ELSE:
+           current.next = list2
+           list2 = list2.next
+       END IF
+       Move current to current.next
+   END WHILE
+   IF list1 is not null:
+       current.next = list1
+   ELSE:
+       current.next = list2
+   END IF
+   RETURN dummy.next
+
+Create list1: 1 -> 2 -> 4
+   Create list2: 1 -> 3 -> 4
+   Call mergeTwoLists(list1, list2) → store result in mergedList
+   WHILE mergedList is not null:
+       PRINT mergedList.val
+       mergedList = mergedList.next
